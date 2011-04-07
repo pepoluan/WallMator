@@ -10,6 +10,9 @@ readonly iptrest="/sbin/iptables-restore"
 
 readonly chmod="/bin/chmod"
 readonly date="/bin/date"
+readonly mktmp="/bin/mktemp"
+readonly awk="/usr/bin/awk"
+readonly grep="/bin/grep"
 
 WALLMATOR_ERROR=""
 
@@ -45,10 +48,12 @@ printf "\n $c*$w WALLMATOR$n - fireWALL autoMATOR - ${w}starting:$n"
 WALLMATOR_LOG "WALLMATOR Starting"
 
 for i in {00..99}; do
-  for j in $start_scripts/${i}-*; do
-    if [[ -f $j ]] ; then
-      $chmod 0644 $j
-      source $j
+  for script in $start_scripts/${i}-*; do
+    if [[ -f $script ]] ; then
+      $chmod 0644 $script
+      # Ensure no "exit" command in the sourced script
+      $grep -E '(^ *exit)|(&& *exit)|(\|\| *exit)' $script ||
+        source $script
     fi
   done
 done

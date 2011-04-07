@@ -13,3 +13,17 @@ that:
      
   2. DO NOT end your script with 'exit' command; the script will be SOURCE-d
      by wallmator.sh, not executed!
+     
+     In fact, the command 'exit' must not appear *at*all* in the script!
+     
+     Test a script using the following:
+     
+         grep -E '(^ *exit)|(&& *exit)|(\|\| *exit)' $SCRIPT_NAME
+         
+     If the 'grep' command above does not return anything, then the script is
+     safe. Or, use the following:
+     
+         grep --files-with-matches -E '(^ *exit)|(&& *exit)|(\|\| *exit)' \
+             /var/opt/wallmator/start-scripts/*
+
+     This command will produce a list of 'unsafe' scripts

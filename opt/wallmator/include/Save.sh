@@ -31,6 +31,16 @@ done <<< "$buildscripts"
 
 echo
 
+declare -a unsafe_files=( $(grep --files-with-matches -E '(^ *exit)|(&& *exit)|(\|\| *exit)' $start_scripts/*) )
+
+if [[ $unsafe_files ]]; then
+  printf "\n${r}WARNING:${n} Unsafe files are found! These will not be run by wallmator start:"
+  for f in ${unsafe_files[@]}; do
+    printf "\n ${r}* ${c}$f${n}"
+  done
+  printf "\n\n"
+fi
+
 ## THIS FILE IS SOURCED!!
 ## DO NOT END WITH exit !!!
 
