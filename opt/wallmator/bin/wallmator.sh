@@ -3,7 +3,7 @@
 source /opt/wallmator/include/CONSTANTS.sh
 
 Show_Version () {
-  printf "\n%s\n" "\
+  printf "%s\n" "\
 WallMator $WALLMATOR_version"
 }
 
