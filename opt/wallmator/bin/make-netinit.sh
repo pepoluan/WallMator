@@ -21,22 +21,20 @@ eth0_parameters="txqueuelen 2000"
 
 __EOD
 fi
-source $ifaces_conf
+
+SafeSource $ifaces_conf
 
 # Sanity sanitization - make sure we only process interfaces that exist
 declare -a ifaces
 local_ifaces="$(ip -o link show | awk '!/loopback/ {gsub (/:/,"",$2); print $2}')"
 for i in ${interfaces[@]}; do
-  [[ $local_ifaces =~ $i ]] && ifaces+=( $i  )
+  [[ $local_ifaces =~ "$i" ]] && ifaces+=( $i  )
 done
-
-#declare -a interfaces=( $(ip -o link show | awk '!/loopback/ {gsub (/:/,"",$2); print $2}') )
 
 # This function is just a shorthand to print out a line common for all interfaces
 # The location where the interface name is to be substituted in is marked using a pair of braces {}
 # (a la find)
 ForAllInterfaces () {
-  local i
   for i in ${ifaces[@]}; do
     printf "%s\n" "${1//\{\}/$i}"
   done
