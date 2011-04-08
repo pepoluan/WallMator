@@ -1,0 +1,13 @@
+opt\wallmator\skel\etc\bugfixer.conf
+opt\wallmator\skel\etc\interfaces.conf
+opt\wallmator\skel\etc\bugfix.d\iptables-save_1.4.4_fix.awk
+opt\wallmator\include\CONSTANTS.sh
+opt\wallmator\include\MAKEBLOCKS.sh
+opt\wallmator\include\Save.sh
+opt\wallmator\include\Start.sh
+opt\wallmator\bin\make-iproute.sh
+opt\wallmator\bin\make-ipset.sh
+opt\wallmator\bin\make-iptables.sh
+opt\wallmator\bin\make-netinit.sh
+opt\wallmator\bin\make-reset.sh
+opt\wallmator\bin\wallmator.sh
