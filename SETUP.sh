@@ -60,6 +60,10 @@ printf "\n * Creating /etc/opt directories... "
   CreateDir $etcdir
   printf "OK"
 
+printf "\n * Creating /var/opt directories... "
+  CreateDir $startsdir
+  printf "OK"
+
 CopyFiles () {
   if ! cp -r $1 $2; then
     printf "ERROR!\n\nI can't copy the files from $1 to $2. Can't continue.\n\n"

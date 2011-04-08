@@ -36,7 +36,7 @@ printf "\n $c*$w WALLMATOR$n - fireWALL autoMATOR - ${w}starting:$n"
 
 WALLMATOR_LOG "WALLMATOR Starting"
 
-for script in $start_scripts/{00..99}*; do
+for script in $startsdir/{00..99}*; do
   if [[ -f $script ]] ; then
     $chmod 0644 $script
     # Ensure no "exit" command in the sourced script

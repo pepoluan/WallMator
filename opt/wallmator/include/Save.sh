@@ -21,7 +21,7 @@ while read method target; do
   [[ ${method:0:1} == "#" ]] && continue
   printf "%b" " $c* ${n}Building $w$target-$method$n using ${w}make-$method$n... "
   _meth="$bindir/make-$method.sh"
-  _targ="$start_scripts/$target-$method.sh"
+  _targ="$startsdir/$target-$method.sh"
   if $_meth > $_targ ; then
     printf "${g}OK$n\n"
   else
