@@ -1,11 +1,11 @@
 #!/bin/bash
 
-CONSTANTS="opt/wallmator/CONSTANTS.sh"
+CONSTANTS="opt/wallmator/include/CONSTANTS.sh"
 TARGET="${TARGET:-/usr/local/sbin}"
 
 if ! [[ -f $CONSTANTS ]]; then
   printf "\nI can't find $CONSTANTS!"
-  printf "\nRun this script from the basedir of wallmator installer package."
+  printf "\nRun this script from the basedir of wallmator installer package.\n\n"
   exit 1
 fi
 
@@ -39,7 +39,7 @@ printf "\n * Checking for sanity... "
     [[ -z $fname ]] && continue
     [[ ${fname:0:1} == "#" ]] && continue
     if ! [[ -f $fname ]] ; then
-      printf "ERROR!\n\nI can't find $fname. Can't continue.\n\n"
+      printf "ERROR!\n\nI can't find %s . Can't continue.\n\n" "$fname"
       exit 1
     fi
   done < MANIFESTS
@@ -53,11 +53,13 @@ CreateDir () {
 }
 
 printf "\n * Creating /opt directories... "
-  CreateDir $optdir
+  CreateDir $bindir
+  CreateDir $incdir
+  CreateDir $skeldir/etc/bugfix.d
   printf "OK"
 
 printf "\n * Creating /etc/opt directories... "
-  CreateDir $etcdir
+  CreateDir $etcdir/bugfix.d
   printf "OK"
 
 printf "\n * Creating /var/opt directories... "
@@ -72,19 +74,20 @@ CopyFiles () {
 }
 
 printf "\n * Copying /opt files... "
-  CopyFiles opt/wallmator/* $optdir
+  CopyFiles "opt/wallmator/*" $optdir
   chmod +x $bindir/*
   printf "OK"
 
 printf "\n * Copying /etc/opt files... "
-  CopyFiles $optdir/skel/etc/* $etcdir
+  CopyFiles "$optdir/skel/etc/*" $etcdir
   printf "OK"
 
 printf "\n * Making symbolic link for wallmator.sh... "
-  if ! ln -s $bindir/wallmator.sh $TARGET/wallmator; then
+  [[ -f $TARGET/wallmator ]] && rm -f $TARGET/wallmator
+  if ! ln -s $bindir/wallmator.sh $TARGET/wallmator &> /dev/null; then
     printf "ERROR!\n\nI can't make symbolic link.\nYou have to make it yourself.\n"
   fi
-  printf "OK
+  printf "OK"
 
 printf "\n * Generating basic configuration files... "
   interfaces=( $(ip -o link show | awk '!/loopback/ {gsub (/:/,"",$2); printf $2 " "}') )
@@ -101,8 +104,11 @@ __EOD__
   for i in ${interfaces[@]}; do
     echo "${i}_parameters=\"\"" >> $ifaces_conf
   done
+  printf "OK"
 
 cat - <<__EOD__
+
+
 Installation done. You still need to do the following things:
   1. Check $ifaces_conf file. Modify it to match your system.
   2. Modify $bugfixer_conf file according to your needs.
