@@ -13,18 +13,27 @@ r="\x1B[1;41m"
 w="\x1B[1;37m"
 n="\x1B[m"
 
-logfile="/var/log/wallmator.log"
-start_scripts="/var/opt/wallmator/start-scripts"
+# Directories
 
-bindir="/opt/wallmator/bin"
+optdir="/opt/wallmator"
+bindir="$optdir/bin"
+incdir="$optdir/include"
+
 etcdir="/etc/opt/wallmator"
-incdir="/opt/wallmator/include"
+
+vardir="/var/opt/wallmator"
+startsdir="$vardir/start-scripts"
+
+# Files
+logfile="/var/log/wallmator.log"
+ifaces_conf="$etcdir/interfaces.conf"
+bugfixer_conf="$etcdir/bugfixer.conf"
 
 # Location of programs
 
 chmod="/bin/chmod"
 date="/bin/date"
-mktmp="/bin/mktemp"
+mktemp="/bin/mktemp"
 awk="/usr/bin/awk"
 grep="/bin/grep"
 rm="/bin/rm"
@@ -35,12 +44,8 @@ iptrest="/sbin/iptables-restore"
 
 SafeSource () {
   __temp=$($mktemp)
-  # Get only actual parameters ...
-  $grep -E '^[[:space:]]*[a-z0-9_]+=' "$1" |
-    # ... and strip out embedded commands ...
-    $grep -v -e '`' -e '$(' >
-      # ... and stow it somewhere temporary
-      $__temp
+  # Get only actual parameters and strip out embedded commands
+  $grep -E '^[[:space:]]*[a-z0-9_]+=' "$1" | $grep -v -e '\`' -e '$(' > $__temp
   source $__temp
   $rm -f $__temp
 }

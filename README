@@ -1,5 +1,4 @@
-WallMator -- fireWALL autoMATOR for Linux
-v 0.1.0
+WallMator v0.1.1 -- fireWALL autoMATOR for Linux
 
 Description:
     WallMator is a set of bash scripts to provide persistence across system
@@ -9,4 +8,12 @@ License:
     Until further notice, GPL (version 2 or newer, according to your liking)
 
 How-To Use:
-    Read INSTALL
+    'wallmator help' should do until I understand how to write the man page
+    
+Contributor(s):
+    Pandu E Poluan (pepoluan @ github)
+
+Credits:
+    - The Netfilter team for ipset, iptables, xtables-addons
+    - Alexey Kuznetsov and Stephen Hemminger for iproute2
+    - Brian Fox and Chet Ramey for bash

@@ -4,24 +4,7 @@ source /opt/wallmator/include/CONSTANTS.sh
 
 source $incdir/MAKEBLOCKS.sh
 
-ifaces_conf=$etcdir/interfaces.conf
-
 declare -a interfaces
-if ! [[ -f $ifaces_conf ]]; then
-  cat - > $ifaces_conf <<__EOD
-# interfaces.conf - WallMator configuration file for interfaces
-
-# Space-separated list of interfaces to save/restore
-interfaces=( $(ip -o link show | awk '!/loopback/ {gsub (/:/,"",$2); print $2}') )
-
-# (Optional) Parameters per interface
-# If an interface's parameter is not specified, then WallMator will not try to
-# set the interface's parameter
-eth0_parameters="txqueuelen 2000"
-
-__EOD
-fi
-
 SafeSource $ifaces_conf
 
 # Sanity sanitization - make sure we only process interfaces that exist

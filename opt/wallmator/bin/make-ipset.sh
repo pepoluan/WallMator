@@ -6,12 +6,12 @@ source $incdir/MAKEBLOCKS.sh
 
 # This array lists IP sets that should not have its contents saved
 # (will be auto-populated by iptables)
-declare -a without_contents=( $(ipset --save | awk '/tree/ {print $2}') )
+declare -a without_contents=( $(ipset --save | awk '$1=="-N" && $3 ~ /tree/ {print $2}') )
 
 awkpattern="1"
 
 for s in ${without_contents[@]}; do
-  awkpattern+=" && !/A $s/"
+  awkpattern+=" && \$1\$2 != \"-A$s\""
 done
 
 cat - <<__EOT

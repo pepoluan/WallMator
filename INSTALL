@@ -1,25 +1,11 @@
 HOW-TO INSTALL
 ==============
 
- 1. Make directory /opt/wallmator
- 2. Copy the contents of opt/wallmator (recursively) to your /opt/wallmator
- 3. Make directory /etc/opt/wallmator
- 4. Copy the contents of etc/opt/wallmator to your /etc/opt/wallmator
- 5. Make directory /var/opt/wallmator/start-scripts
- 6. Make a symbolic link in /usr/local/sbin to /opt/wallmator/bin/wallmator.sh
+    chmod +x SETUP.sh
+    ./SETUP.sh
 
-Yeah, the above should be made into a script, but I'm lazy... uh, I mean, I'll
-get to it. Like Real Soon™. Yeah.
+By default, SETUP.sh makes symbolic links in /usr/local/sbin. If you want to
+put the symbolic links somewhere else, specify TARGET during SETUP.sh invoca-
+tion, e.g.:
 
- 7. Make your system execute "/opt/wallmator/bin/wallmator.sh start" during
-    startup, after all network interfaces are up.
- 
-Now, with the proliferation of startup managers (upstart, systemd, initng, etc
-etc etc), I can't possibly code for them all.
-
-The only way I'm *sure* will work is to insert that line into /etc/rc.local
-*just* before the "exit 0" line.
-
- 8. Configure your ipset, iptables, and iproute to your liking
- 9. Run "wallmator save"
-10. Done
+    TARGET="/path/to/my/dir" ./SETUP.sh
