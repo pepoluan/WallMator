@@ -18,6 +18,7 @@ n="\x1B[m"
 optdir="/opt/wallmator"
 bindir="$optdir/bin"
 incdir="$optdir/include"
+skeldir="$optdir/skel"
 
 etcdir="/etc/opt/wallmator"
 
