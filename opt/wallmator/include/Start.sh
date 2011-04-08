@@ -3,17 +3,6 @@
 ## THIS SCRIPT WILL BE SOURCED by wallmator.sh
 ## Do not execute directly!
 
-# Point to location of progs
-readonly ip="/sbin/ip"
-readonly ipset="/usr/local/sbin/ipset"
-readonly iptrest="/sbin/iptables-restore"
-
-readonly chmod="/bin/chmod"
-readonly date="/bin/date"
-readonly mktmp="/bin/mktemp"
-readonly awk="/usr/bin/awk"
-readonly grep="/bin/grep"
-
 WALLMATOR_ERROR=""
 
 WALLMATOR_LOG () {
@@ -47,15 +36,13 @@ printf "\n $c*$w WALLMATOR$n - fireWALL autoMATOR - ${w}starting:$n"
 
 WALLMATOR_LOG "WALLMATOR Starting"
 
-for i in {00..99}; do
-  for script in $start_scripts/${i}-*; do
-    if [[ -f $script ]] ; then
-      $chmod 0644 $script
-      # Ensure no "exit" command in the sourced script
-      $grep -E '(^ *exit)|(&& *exit)|(\|\| *exit)' $script ||
-        source $script
-    fi
-  done
+for script in $start_scripts/{00..99}*; do
+  if [[ -f $script ]] ; then
+    $chmod 0644 $script
+    # Ensure no "exit" command in the sourced script
+    $grep -E '(^ *exit)|(&& *exit)|(\|\| *exit)' $script ||
+      source $script
+  fi
 done
 
 WALLMATOR_LOG "WALLMATOR Complete"
